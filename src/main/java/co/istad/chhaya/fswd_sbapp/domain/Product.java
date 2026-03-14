@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 @Setter
@@ -12,16 +14,20 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id ;
-     private String name;
-     private String description;
-     private double price;
-     @ManyToOne
-     @JoinColumn(name = "category_id", nullable = false)
-        private Category category ;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+  @Id
+    private  String Code;
+  @Column(nullable = false)
+    private String name;
+  @Column(nullable = false)
+    private BigDecimal price;
+  @Column(nullable = false)
+    private Integer qty ;
+  @Column(columnDefinition = "Text")
+    private String description;
+  @Column(nullable = false)
+    private boolean isAvailable;
+  //Relationship Jpa
+  @ManyToOne
+    private Category category;
+
 }

@@ -5,6 +5,7 @@ import co.istad.chhaya.fswd_sbapp.dto.CreateProductRequest;
 import co.istad.chhaya.fswd_sbapp.dto.ProductResponse;
 import co.istad.chhaya.fswd_sbapp.dto.UpdateProductRequest;
 
+import co.istad.chhaya.fswd_sbapp.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,11 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 @Slf4j
 public class ProductController {
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public List<ProductResponse> getAllProducts(
@@ -25,8 +31,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public void createNewProduct(@RequestBody CreateProductRequest createProductRequest){
+    public void createNewProduct(
+            @RequestBody CreateProductRequest createProductRequest){
         log.info("createProductRequest : {}",createProductRequest);
+        productService.createNew(createProductRequest);
+
+
     }
 
     @PutMapping("/{code}")

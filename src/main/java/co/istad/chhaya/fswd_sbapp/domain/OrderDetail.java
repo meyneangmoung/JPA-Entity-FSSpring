@@ -1,30 +1,31 @@
 package co.istad.chhaya.fswd_sbapp.domain;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "orders")
-public class Order {
+@Entity
+@Table(name = "order_details")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id ;
-    private String address ;
+    private UUID id;
     @Column(nullable = false)
-    private String orderedBy;
+    private Integer qty;
     @Column(nullable = false)
-    private Instant orderedAt;
+    private BigDecimal unitPrice;
     @Column(nullable = false)
-    private Boolean isDeleted;
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails;
+    private Float discount;
+    @ManyToOne
+    private Product product;
+    @ManyToOne
+    private Order order;
 }
