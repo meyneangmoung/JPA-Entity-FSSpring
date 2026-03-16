@@ -6,7 +6,9 @@ import co.istad.chhaya.fswd_sbapp.dto.ProductResponse;
 import co.istad.chhaya.fswd_sbapp.dto.UpdateProductRequest;
 
 import co.istad.chhaya.fswd_sbapp.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,14 +31,20 @@ public class ProductController {
         log.info("pageNumber : {}, pageSize : {}",pageNumber,pageSize);
         return  List.of();
     }
+    @GetMapping("/{code}")
+    public ProductResponse getProductByCode(@PathVariable String code) {
+        log.info("getProductByCode: {}", code);
 
+        return productService.getProductByCode(code);
+    }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createNewProduct(
-            @RequestBody CreateProductRequest createProductRequest){
+    public ProductResponse createNewProduct(
+           @Valid @RequestBody CreateProductRequest createProductRequest){
         log.info("createProductRequest : {}",createProductRequest);
-        productService.createNew(createProductRequest);
-
-
+        return productService.createNew(createProductRequest);
     }
 
     @PutMapping("/{code}")

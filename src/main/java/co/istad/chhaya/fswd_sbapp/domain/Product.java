@@ -14,20 +14,19 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 
 public class Product {
-  @Id
-    private  String Code;
-  @Column(nullable = false)
+    @Id
+    private String Code;
+    @Column(nullable = false)
     private String name;
-  @Column(nullable = false)
+    @Column(nullable = false)
     private BigDecimal price;
-  @Column(nullable = false)
-    private Integer qty ;
-  @Column(columnDefinition = "Text")
+    @Column(nullable = false)
+    private Integer qty;
+    @Column(columnDefinition = "Text")
     private String description;
-  @Column(nullable = false)
-    private boolean isAvailable;
-  //Relationship Jpa
-  @ManyToOne
+    @Column(nullable = false)
+    private Boolean isAvailable;
+    //Relationship Jpa
+    @ManyToOne
     private Category category;
-
 }
