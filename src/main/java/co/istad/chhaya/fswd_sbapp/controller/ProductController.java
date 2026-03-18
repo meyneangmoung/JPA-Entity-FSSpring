@@ -2,12 +2,14 @@ package co.istad.chhaya.fswd_sbapp.controller;
 
 
 import co.istad.chhaya.fswd_sbapp.dto.CreateProductRequest;
+import co.istad.chhaya.fswd_sbapp.dto.IsAvailableRequest;
 import co.istad.chhaya.fswd_sbapp.dto.ProductResponse;
 import co.istad.chhaya.fswd_sbapp.dto.UpdateProductRequest;
 
 import co.istad.chhaya.fswd_sbapp.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +26,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> getAllProducts(
+    public Page<ProductResponse> getAllProducts(
             @RequestParam(required = false,defaultValue = "0") int pageNumber,
             @RequestParam(required = false,defaultValue = "20") int pageSize
     ){
         log.info("pageNumber : {}, pageSize : {}",pageNumber,pageSize);
-        return  List.of();
+        return productService.getAllProducts(pageNumber,pageSize);
     }
     @GetMapping("/{code}")
     public ProductResponse getProductByCode(@PathVariable String code) {
@@ -48,21 +50,22 @@ public class ProductController {
     }
 
     @PutMapping("/{code}")
-    public ProductResponse updateProductByCode(@PathVariable String code , @RequestBody UpdateProductRequest updateProductRequest){
-        log.info("updateProductByCode  : {} with new data : {}",code,updateProductRequest);
-        return  null;
-    }
-
+        public ProductResponse updateIsAvailableByCode(@PathVariable String code,
+                @Valid @RequestBody IsAvailableRequest isAvailableRequest){
+            log.info("updateProductByCode: {}, with new data: {}", code, isAvailableRequest);
+            return productService.updateIsAvailableByCode(code, isAvailableRequest);
+        }
     @PatchMapping("/{code}")
-    public ProductResponse updateProductPartiallyByCode(@PathVariable String code, @RequestBody UpdateProductRequest updateProductRequest){
-        log.info("updateProductPartiallyByCode  : {} with new data : {}",code,updateProductRequest);
-
-        return null;
+    public ProductResponse updateProductPartiallyByCode(@PathVariable String code,
+                                                        @Valid @RequestBody UpdateProductRequest updateProductRequest) {
+        log.info("updateProductPartiallyByCode: {}, with new data: {}", code, updateProductRequest);
+        return productService.updateProductPartiallyByCode(code, updateProductRequest);
     }
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{code}")
     public void deleteProductByCode(@PathVariable String code){
-        log.info("deleteProductByCode : {}",code);
+        log.info("deleteProductByCode: {}",code);
+        productService.deleteProductByCode(code);
+    }
     }
 
-}

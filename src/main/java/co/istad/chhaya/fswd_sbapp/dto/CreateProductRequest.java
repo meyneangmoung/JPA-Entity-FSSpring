@@ -5,20 +5,21 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 public record CreateProductRequest(
-        @NotBlank
+        @NotBlank(message ="Product name is required ")
         String name,
         @Positive
-        @NotNull
+        @NotNull(message = "Price is required ")
         BigDecimal price,
 
         @Positive
-        @NotNull
+        @NotNull(message = "QTY is required")
         @Min(1)
         @Max(500)
-        Integer Qty,
+        Integer qty,
+
         String description,
         @Positive
-        @NotNull
+        @NotNull(message ="Category is required")
         Integer categoryId
 
 
